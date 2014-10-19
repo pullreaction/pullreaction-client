@@ -7,8 +7,8 @@ var PullReaction = (function() {
         this._service = new PullReactionService();
     };
 
-    PullReaction.prototype.login = function() {
-        this._browser.open(LOGIN_URL);
+    PullReaction.prototype.login = function(authProvider) {
+        this._browser.open(authProvider.getAuthPath());
     };
 
     PullReaction.prototype.showWidget = function() {

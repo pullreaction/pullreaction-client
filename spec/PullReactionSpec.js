@@ -5,12 +5,12 @@ describe('Pull Reaction Client', function() {
         browser = jasmine.createSpyObj('Browser', ['open']);
     });
 
-    it("logs the user in", function() {
+    it("logs the user in with GitHub", function() {
         var pr = new PullReaction({ browser: browser });
 
-        pr.login();
+        pr.login(GitHubAuth);
 
-        expect(browser.open).toHaveBeenCalledWith('http://www.pullreaction.com/api/v1/auth/github');
+        expect(browser.open).toHaveBeenCalledWith(GitHubAuth.getAuthPath());
     });
 
     it("shows the widget", function() {
