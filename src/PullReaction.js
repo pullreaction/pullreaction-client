@@ -25,5 +25,9 @@ var PullReaction = (function() {
         );
     };
 
+    PullReaction.prototype.addReaction = function(node) {
+        this._service.addReaction(node.src);
+    };
+
     return PullReaction;
 })();

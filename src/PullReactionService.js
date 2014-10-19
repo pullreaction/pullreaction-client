@@ -7,5 +7,9 @@ var PullReactionService = (function() {
 
     };
 
+    PullReactionService.prototype.addReaction = function(url) {
+
+    };
+
     return PullReactionService;
 })();

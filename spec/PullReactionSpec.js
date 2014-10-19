@@ -43,4 +43,16 @@ describe('Pull Reaction Client', function() {
         expect(pr._service.getAll).toHaveBeenCalled();
         expect(pr._widget.addReactions).toHaveBeenCalledWith(reactions);
     });
+
+    it("adds a new reaction from image DOMNode", function() {
+        var img = document.createElement('img');
+        img.src = 'http://example.com/reaction.gif';
+
+        var pr = new PullReaction({ browser: browser });
+        spyOn(pr._service, 'addReaction')
+
+        pr.addReaction(img);
+
+        expect(pr._service.addReaction).toHaveBeenCalledWith('http://example.com/reaction.gif');
+    });
 });
