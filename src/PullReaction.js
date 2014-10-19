@@ -3,8 +3,8 @@ var PullReaction = (function() {
 
     function PullReaction(args) {
         this._browser = args.browser;
-        this._widget = new PullReactionWidget();
-        this._service = new PullReactionService();
+        this._service = args.service;
+        this._widget = args.widget;
     };
 
     PullReaction.prototype.login = function(authProvider) {

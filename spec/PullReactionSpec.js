@@ -1,21 +1,24 @@
 describe('Pull Reaction Client', function() {
-    var browser, widget, prServiceservice;
+    var args;
 
     beforeEach(function() {
-        browser = jasmine.createSpyObj('Browser', ['open']);
+        args = {
+            browser: jasmine.createSpyObj('Browser', ['open']),
+            service: jasmine.createSpyObj('PullReactionService', ['getAll', 'addReaction']),
+            widget: jasmine.createSpyObj('PullReactionWidget', ['show', 'hide', 'addReactions'])
+        };
     });
 
     it("logs the user in with GitHub", function() {
-        var pr = new PullReaction({ browser: browser });
+        var pr = new PullReaction(args);
 
         pr.login(GitHubAuth);
 
-        expect(browser.open).toHaveBeenCalledWith(GitHubAuth.getAuthPath());
+        expect(pr._browser.open).toHaveBeenCalledWith(GitHubAuth.getAuthPath());
     });
 
     it("shows the widget", function() {
-        var pr = new PullReaction({ browser: browser });
-        spyOn(pr._widget, 'show');
+        var pr = new PullReaction(args);
 
         pr.showWidget();
 
@@ -23,8 +26,7 @@ describe('Pull Reaction Client', function() {
     });
 
     it("hides the widget", function() {
-        var pr = new PullReaction({ browser: browser });
-        spyOn(pr._widget, 'hide');
+        var pr = new PullReaction(args);
 
         pr.hideWidget();
 
@@ -32,11 +34,9 @@ describe('Pull Reaction Client', function() {
     });
 
     it("refreshes reactions", function() {
+        var pr = new PullReaction(args);
         var reactions = [ 1, 2, 3];
-
-        var pr = new PullReaction({ browser: browser });
-        spyOn(pr._service, 'getAll').and.returnValue(reactions);
-        spyOn(pr._widget, 'addReactions');
+        pr._service.getAll.and.returnValue(reactions);
 
         pr.refresh();
 
@@ -45,11 +45,9 @@ describe('Pull Reaction Client', function() {
     });
 
     it("adds a new reaction from image DOMNode", function() {
+        var pr = new PullReaction(args);
         var img = document.createElement('img');
         img.src = 'http://example.com/reaction.gif';
-
-        var pr = new PullReaction({ browser: browser });
-        spyOn(pr._service, 'addReaction')
 
         pr.addReaction(img);
 
