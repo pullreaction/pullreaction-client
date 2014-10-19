@@ -29,5 +29,9 @@ var PullReaction = (function() {
         this._service.addReaction(node.src);
     };
 
+    PullReaction.prototype.getThumbnailContent = function(reaction) {
+        this._service.getThumbnailContent(reaction);
+    }
+
     return PullReaction;
 })();

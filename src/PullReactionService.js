@@ -11,5 +11,9 @@ var PullReactionService = (function() {
 
     };
 
+    PullReactionService.prototype.getThumbnailContent = function(reaction) {
+
+    };
+
     return PullReactionService;
 })();

@@ -3,13 +3,22 @@ describe('Pull Reaction Client', function() {
 
     beforeEach(function() {
         args = {
-            browser: jasmine.createSpyObj('Browser', ['open']),
-            service: jasmine.createSpyObj('PullReactionService', ['getAll', 'addReaction']),
-            widget: jasmine.createSpyObj('PullReactionWidget', ['show', 'hide', 'addReactions'])
+            browser: jasmine.createSpyObj(
+                'Browser',
+                ['open']
+            ),
+            service: jasmine.createSpyObj(
+                'PullReactionService',
+                ['getAll', 'addReaction', 'getThumbnailContent']
+            ),
+            widget: jasmine.createSpyObj(
+                'PullReactionWidget',
+                ['show', 'hide', 'addReactions']
+            )
         };
     });
 
-    it("logs the user in with GitHub", function() {
+    it('logs the user in with GitHub', function() {
         var pr = new PullReaction(args);
 
         pr.login(GitHubAuth);
@@ -17,7 +26,7 @@ describe('Pull Reaction Client', function() {
         expect(pr._browser.open).toHaveBeenCalledWith(GitHubAuth.getAuthPath());
     });
 
-    it("shows the widget", function() {
+    it('shows the widget', function() {
         var pr = new PullReaction(args);
 
         pr.showWidget();
@@ -25,7 +34,7 @@ describe('Pull Reaction Client', function() {
         expect(pr._widget.show).toHaveBeenCalled();
     });
 
-    it("hides the widget", function() {
+    it('hides the widget', function() {
         var pr = new PullReaction(args);
 
         pr.hideWidget();
@@ -33,7 +42,7 @@ describe('Pull Reaction Client', function() {
         expect(pr._widget.hide).toHaveBeenCalled();
     });
 
-    it("refreshes reactions", function() {
+    it('refreshes reactions', function() {
         var pr = new PullReaction(args);
         var reactions = [ 1, 2, 3];
         pr._service.getAll.and.returnValue(reactions);
@@ -44,7 +53,7 @@ describe('Pull Reaction Client', function() {
         expect(pr._widget.addReactions).toHaveBeenCalledWith(reactions);
     });
 
-    it("adds a new reaction from image DOMNode", function() {
+    it('adds a new reaction from image DOMNode', function() {
         var pr = new PullReaction(args);
         var img = document.createElement('img');
         img.src = 'http://example.com/reaction.gif';
@@ -52,5 +61,14 @@ describe('Pull Reaction Client', function() {
         pr.addReaction(img);
 
         expect(pr._service.addReaction).toHaveBeenCalledWith('http://example.com/reaction.gif');
+    });
+
+    it('retrieves thumbnail content', function() {
+        var pr = new PullReaction(args);
+        var reaction = 'reaction';
+
+        pr.getThumbnailContent(reaction);
+
+        expect(pr._service.getThumbnailContent).toHaveBeenCalledWith(reaction);
     });
 });
